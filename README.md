@@ -17,7 +17,7 @@ The ability to look at a layout and see the data behind it is an essential skill
  * Access Token
  * Access Token Secret
 
- A config.js file that will contain your application’s authentication code 
+ Create a **config.js** file in root of your directory that will contain your application’s authentication code 
  
  ```module.exports = {
   consumer_key:         '...',
