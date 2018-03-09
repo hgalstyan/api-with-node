@@ -1,0 +1,43 @@
+extends layout.pug
+
+block content
+  include includes/header.pug 
+
+  .app--tweet
+    form
+      .circle--fluid
+        .circle--fluid--cell.circle--fluid--primary.align-bottom.app--tweet--post
+          .app--avatar(style=`background-image: url(${display})`)
+
+          textarea#tweet-textarea.circle--textarea--input(placeholder="What's happening?" name="newTweet")
+          strong.app--tweet--char#tweet-char  140
+
+        .circle--fluid--cell.align-bottom
+          button#postTweet.button-primary  Tweet
+
+  .bounds.app--body
+
+    .app--section--header
+
+      .grid-33
+        .app--section--heading
+          h2  Timeline
+
+      .grid-33
+        .app--section--heading
+          strong= following
+          h2  Following
+
+      .grid-33
+        .app--section--heading
+          h2  Direct Messages
+
+
+    .grid-33
+      include includes/timeline.pug 
+
+    .grid-33
+      include includes/following.pug
+
+    .grid-33
+      include includes/messages.pug 

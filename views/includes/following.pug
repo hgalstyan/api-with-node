@@ -1,0 +1,67 @@
+.app--section
+  ul.app--user--list
+
+    li
+      .circle--fluid
+        .circle--fluid--cell.circle--fluid--primary
+          a.app--tweet--author
+            .app--avatar(style=`background-image: url(${avatars[0]})`)
+            h4= names[0]
+            p @#{screenNames[0]}
+        .circle--fluid--cell
+        if status[0]
+          a.button.button-text  Unfollow  
+        else
+          a.button Follow
+
+    li
+      .circle--fluid
+        .circle--fluid--cell.circle--fluid--primary
+          a.app--tweet--author
+            .app--avatar(style=`background-image: url(${avatars[1]})`)
+            h4= names[1]
+            p @#{screenNames[1]}
+        .circle--fluid--cell
+        if status[1]
+          a.button.button-text  Unfollow  
+        else
+          a.button Follow
+
+    li
+      .circle--fluid
+        .circle--fluid--cell.circle--fluid--primary
+          a.app--tweet--author
+            .app--avatar(style=`background-image: url(${avatars[2]})`)
+            h4= names[2]
+            p @#{screenNames[2]}
+        .circle--fluid--cell
+        if status[2]
+          a.button.button-text  Unfollow  
+        else
+          a.button Follow
+
+    li
+      .circle--fluid
+        .circle--fluid--cell.circle--fluid--primary
+          a.app--tweet--author
+            .app--avatar(style=`background-image: url(${avatars[3]})`)
+            h4= names[3]
+            p @#{screenNames[3]}
+        .circle--fluid--cell
+        if status[3]
+          a.button.button-text  Unfollow  
+        else
+          a.button Follow
+
+    li
+      .circle--fluid
+        .circle--fluid--cell.circle--fluid--primary
+          a.app--tweet--author
+            .app--avatar(style=`background-image: url(${avatars[4]})`)
+            h4= names[4]
+            p @#{screenNames[4]}
+        .circle--fluid--cell
+        if status[4]
+          a.button.button-text  Unfollow  
+        else
+          a.button Follow

@@ -1,0 +1,33 @@
+.app--section
+
+  ul.app--message--list  
+    li
+      h3  Conversation with
+        a= receiverName
+
+      ul.app--message--conversation
+
+        li.app--message
+          .app--avatar(style=`background-image: url(${senderAvi})`)
+          p.app--message--text= senderMessages[2]
+          p.app--message--timestamp= senderTimes[2]
+
+        li.app--message--me
+          .app--avatar(style=`background-image: url(${receiverAvi})`)
+          p.app--message--text= receiverMessages[2]
+          p.app--message--timestamp= receiverTimes[2]
+
+        li.app--message--me
+          .app--avatar(style=`background-image: url(${receiverAvi})`)
+          p.app--message--text= receiverMessages[1]
+          p.app--message--timestamp= receiverTimes[1]
+
+        li.app--message
+          .app--avatar(style=`background-image: url(${senderAvi})`)
+          p.app--message--text= senderMessages[1]
+          p.app--message--timestamp= senderTimes[1]
+
+        li.app--message
+          .app--avatar(style=`background-image: url(${senderAvi})`)
+          p.app--message--text= senderMessages[0]
+          p.app--message--timestamp= senderTimes[0]
