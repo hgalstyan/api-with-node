@@ -73,92 +73,97 @@ function timeDifference(previous) {
         return Math.round(elapsed / msPerYear) + ' years ago';
     }
 }
-//Middleware for twitter api
-app.use(
-    (req, res, next) => {
-        // GET request for 5 most recent tweets on your timeline
-        T.get('statuses/home_timeline', { count: 5 }, (err, data, res) => {
-            if (err) {
-                return next(err);
-            }
-            data.forEach(tweet => {
-                let date = tweet.created_at;
-                let day = timeDifference(date);
-                dates.push(day);
-                contents.push(tweet.text);
-                retweets.push(tweet.retweet_count);
-                favs.push(tweet.favorite_count);
-                displays.push(tweet.user.profile_image_url);
-                userNames.push(tweet.user.name);
-                handles.push(tweet.user.screen_name);
-            });
+//Middleware for twitter api statuses
+app.use((req, res, next) => {
+    // GET request for 5 most recent tweets on your timeline
+    T.get('statuses/home_timeline', { count: 5 }, (err, data, res) => {
+        if (err) {
+            return next(err);
+        }
+        data.forEach(tweet => {
+            let date = tweet.created_at;
+            let day = timeDifference(date);
+            dates.push(day);
+            contents.push(tweet.text);
+            retweets.push(tweet.retweet_count);
+            favs.push(tweet.favorite_count);
+            displays.push(tweet.user.profile_image_url);
+            userNames.push(tweet.user.name);
+            handles.push(tweet.user.screen_name);
         });
-        next();
-    }, (req, res, next) => {
-        // GET request for 5 most recent following
-        T.get('friends/list', { screen_name: screenName, count: 5 }, (err, data, res) => {
-            if (err) {
-                return next(err);
-            }
-            const { users } = data;
+    });
+    next();
+});
 
-            users.forEach(user => {
-                avatars.push(user.profile_image_url);
-                names.push(user.name);
-                screenNames.push();
-                status.push(user.following);
-            });
-        });
-        next();
-    }, (req, res, next) => {
-        // GET request for 3 most recent sent DMs
-        T.get('direct_messages/sent', { count: 3 }, (err, data, res) => {
-            if (err) {
-                return next(err);
-            }
-            data.forEach(element => {
-                senderMessages.push(element.text);
-                let date = element.created_at;
-                let time = timeDifference(date);
-                senderTimes.push(time);
-            });
-            let otherName = data[0].recipient.name;
-            receiverName = `   ${otherName}`;
-            senderAvi = data[0].sender.profile_image_url;
-            receiverAvi = data[0].recipient.profile_image_url;
-        });
-        next();
-    }, (req, res, next) => {
-        // GET request for 3 most recent received DMs
-        T.get('direct_messages', { count: 3 }, (err, data, res) => {
-            if (err) {
-                return next(err);
-            }
-            data.forEach(element => {
-                receiverMessages.push(element.text);
-                let date = element.created_at;
-                let time = timeDifference(date);
-                receiverTimes.push(time);
-            });
-        });
-        next();
-    }, (req, res, next) => {
-        // GET request to verify the user's account
-        T.get('account/verify_credentials', (err, data, res) => {
-            if (err) {
-                return next(err);
-            }
-            presentUser = data;
-            screenName = presentUser.screen_name;
-            display = presentUser.profile_image_url;
-            backgroundDisplay = presentUser.profile_background_image_url;
-            following = presentUser.friends_count;
-        });
-        next();
-    }
-);
+//Friend list
+app.use((req, res, next) => {
+    // GET request for 5 most recent following
+    T.get('friends/list', { screen_name: screenName, count: 5 }, (err, data, res) => {
+        if (err) {
+            return next(err);
+        }
+        const { users } = data;
 
+        users.forEach(user => {
+            avatars.push(user.profile_image_url);
+            names.push(user.name);
+            screenNames.push();
+            status.push(user.following);
+        });
+    });
+    next();
+});
 
+//Direct messages
+app.use((req, res, next) => {
+    // GET request for 3 most recent sent DMs
+    T.get('direct_messages/sent', { count: 3 }, (err, data, res) => {
+        if (err) {
+            return next(err);
+        }
+        data.forEach(element => {
+            senderMessages.push(element.text);
+            let date = element.created_at;
+            let time = timeDifference(date);
+            senderTimes.push(time);
+        });
+        let otherName = data[0].recipient.name;
+        receiverName = `   ${otherName}`;
+        senderAvi = data[0].sender.profile_image_url;
+        receiverAvi = data[0].recipient.profile_image_url;
+    });
+    next();
+},(req, res, next) => {
+    // GET request for 3 most recent received DMs
+    T.get('direct_messages', { count: 3 }, (err, data, res) => {
+        if (err) {
+            return next(err);
+        }
+        data.forEach(element => {
+            receiverMessages.push(element.text);
+            let date = element.created_at;
+            let time = timeDifference(date);
+            receiverTimes.push(time);
+        });
+    });
+    next();
+});
+
+//Verify credentials
+app.use((req, res, next) => {
+    // GET request to verify the user's account
+    T.get('account/verify_credentials', (err, data, res) => {
+        if (err) {
+            return next(err);
+        }
+        presentUser = data;
+        screenName = presentUser.screen_name;
+        display = presentUser.profile_image_url;
+        backgroundDisplay = presentUser.profile_background_image_url;
+        following = presentUser.friends_count;
+    });
+    next();
+});
 
 app.get("/",(req,res)=>{
   res.render("app",{
