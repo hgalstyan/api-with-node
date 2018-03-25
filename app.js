@@ -76,7 +76,7 @@ function timeDifference(previous) {
 //Middleware for twitter api statuses
 app.use((req, res, next) => {
     // GET request for 5 most recent tweets on your timeline
-    T.get('statuses/home_timeline', { count: 5 }, (err, data, res) => {
+    T.get('statuses/user_timeline', { count: 5 }, (err, data, res) => {
         if (err) {
             return next(err);
         }
